@@ -1,72 +1,120 @@
-# PDF-AUDIO-GUI
 ```markdown
-# 📚 Conversor de PDF a Audiolibro
+# 📚 Conversor de PDF a Audiolibro (Python + Rust)
 
-Convierte archivos PDF a audiolibros en formato MP3 con una interfaz gráfica moderna.
+## 🐍 Versión Python con GUI
 
-## 📋 Requisitos
-
-### Dependencias
-- **Python 3.10+**
-- **FFmpeg** (requerido por pydub)
+### 📋 Requisitos
 ```bash
-# Para Linux (Debian/Ubuntu):
 sudo apt install ffmpeg python3-tk
-```
-
-### Librerías Python
-```bash
 pip install PyPDF2 gtts pydub ttkbootstrap
 ```
 
-## 🚀 Cómo Usar
-
-1. **Clona el repositorio:**
-```bash
-[git clone https://github.com/tu-usuario/pdf-a-audiolibro.git](https://github.com/Diez111/PDF-AUDIO-GUI.git)
-cd pdf-a-audiolibro
-```
-
-2. **Coloca tus PDFs:**
-   - Crea una carpeta `PDFs` en el directorio principal
-   - Copia tus archivos PDF a esta carpeta
-
-3. **Ejecuta la aplicación:**
+### 🚀 Ejecución
 ```bash
 python3 main.py
 ```
 
-4. **Interfaz Gráfica:**
-   - Selecciona un PDF de la lista
-   - Haz clic en "Convertir a Audio"
-   - El audiolibro se guardará en `AUDIOLIBROS/`
+## 🦀 Versión Rust (CLI)
 
-## 🖥️ Características de la GUI
-- Interfaz moderna con modo oscuro
-- Listado interactivo de PDFs con tamaños
-- Barra de progreso animada
-- Notificaciones integradas
-- Botones con efectos hover
-- Diseño responsive
+### 📋 Requisitos para Linux Debian/Ubuntu
+```bash
+# Dependencias del sistema
+sudo apt update
+sudo apt install -y build-essential cmake pkg-config libssl-dev
 
-## 📂 Estructura del Proyecto
+# Instalar Rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source $HOME/.cargo/env
+
+# Dependencias adicionales para PDF
+sudo apt install -y libfontconfig1-dev libxcb-shape0-dev libxcb-xfixes0-dev
+```
+
+### 🚀 Instalación y Ejecución
+```bash
+git clone https://github.com/Diez111/PDF-AUDIO-GUI.git
+cd PDF-AUDIO-GUI/rust_version
+
+# Compilar el proyecto
+cargo build --release
+
+# Ejecutar (modo interactivo)
+./target/release/pdf_to_speech
+
+# Ejecutar con parámetros
+./target/release/pdf_to_speech \
+  --pdf_dir ../PDFs/ \
+  --output_dir ../AUDIOS/ \
+  --lang es
+```
+
+### 🛠️ Explicación del Código Rust
+
+#### Estructura Principal
+```rust
+struct Args {
+    pdf_dir: PathBuf,     // Directorio de entrada para PDFs
+    output_dir: PathBuf,  // Directorio de salida para audios
+    lang: Language,       // Idioma (es/en)
+}
+```
+- Parámetros configurables via línea de comandos
+- Soporte para español e inglés
+
+#### Flujo de Trabajo
+1. **Extracción de texto** (`extract_pdf_text`):
+   - Usa la librería `lopdf` para leer PDFs
+   - Limpia formato y guiones de división de palabras
+
+2. **Procesamiento de texto** (`split_text`):
+   - Divide el texto en chunks de 200 caracteres
+   - Evita límites de tamaño de peticiones HTTP
+
+3. **Síntesis de voz** (`generate_speech`):
+   - Usa la API pública de Google Text-to-Speech
+   - Descarga fragmentos de audio en formato MP3
+   - Combina todos los fragmentos en un solo archivo
+
+#### Consideraciones Importantes
+- Requiere conexión a Internet para la síntesis de voz
+- Los PDFs deben contener texto (no funciona con documentos escaneados)
+- Límite práctico de ~200 páginas por PDF
+
+### 📄 Opciones de Ejecución
+```bash
+# Mostrar ayuda
+./pdf_to_speech --help
+
+# Especificar directorios personalizados
+./pdf_to_speech -p /ruta/pdfs -o /ruta/salida
+
+# Generar en inglés
+./pdf_to_speech --lang en
+```
+
+## 📂 Estructura del Proyecto (Actualizada)
 ```
 .
-├── PDFs/                 # PDFs de entrada
-├── AUDIOLIBROS/          # Audios generados
-├── main.py               # Programa principal
-├── pdf_utils.py          # Manejo de PDFs
-├── text_processing.py    # Procesamiento de texto
-├── audio_generation.py   # Generación de audio
-├── README.md             # Este archivo
-└── requirements.txt      # Dependencias
+├── python_gui/       # Versión Python con GUI
+│   ├── main.py
+│   └── ... 
+├── rust_cli/         # Versión Rust CLI
+│   ├── src/
+│   ├── Cargo.toml
+│   └── ...
+├── PDFs/             # PDFs de entrada
+├── AUDIOLIBROS/      # Audios generados
+└── README.md         # Este archivo
 ```
 
-## 📸 Captura de la Interfaz
-<!-- Reemplaza 'gui_screenshot.png' con tu propia captura -->
-![Interfaz Gráfica Moderna](![image](https://github.com/user-attachments/assets/c6181d29-2ae8-44e1-80fa-60d128a2a6c1)
-)
-
-## 📄 Licencia
-GPL3 License © 2025 [Lautaro Agustin Diez]
+## ⚠️ Notas Importantes
+1. La versión Rust es más rápida pero requiere compilación
+2. El uso de la API de Google TTS está sujeto a:
+   - Límites de uso no documentados
+   - Posibles cambios en la URL de la API
+   - Consideraciones legales para uso comercial
+3. Para producción considerar:
+   - Usar un servicio TTS profesional
+   - Implementar manejo de errores robusto
+   - Añadir límites de tasa de solicitudes
 ```
