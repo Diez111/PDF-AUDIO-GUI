@@ -23,7 +23,7 @@ pip install PyPDF2 gtts pydub ttkbootstrap
 
 1. **Clona el repositorio:**
 ```bash
-git clone https://github.com/tu-usuario/pdf-a-audiolibro.git
+[git clone https://github.com/tu-usuario/pdf-a-audiolibro.git](https://github.com/Diez111/PDF-AUDIO-GUI.git)
 cd pdf-a-audiolibro
 ```
 
@@ -68,21 +68,6 @@ python3 main.py
 )
 
 ## 📄 Licencia
-MIT License © 2024 [Tu Nombre]
+GPL3 License © 2025 [Lautaro Agustin Diez]
 
 ```
-
-Para usar este README:
-1. Reemplaza `tu-usuario` en el URL del clone
-2. Agrega tu propia captura de pantalla como `gui_screenshot.png`
-3. Personaliza la sección de licencia con tu nombre
-4. Si agregas más características, actualiza las secciones correspondientes
-
-El README incluye:
-- Instrucciones claras de instalación
-- Demo visual con imagen
-- Estructura de archivos
-- Descripción de funcionalidades
-- Compatibilidad con temas oscuros
-- Formato amigable con emojis
-- Sección para créditos/licencia
