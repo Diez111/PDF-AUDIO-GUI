@@ -69,5 +69,4 @@ python3 main.py
 
 ## 📄 Licencia
 GPL3 License © 2025 [Lautaro Agustin Diez]
-
 ```
