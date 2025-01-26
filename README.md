@@ -4,8 +4,6 @@
 
 Convierte archivos PDF a audiolibros en formato MP3 con una interfaz gráfica moderna.
 
-![Captura de la Interfaz](gui_screenshot.png) <!-- Reemplaza con tu imagen -->
-
 ## 📋 Requisitos
 
 ### Dependencias
